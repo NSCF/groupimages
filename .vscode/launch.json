@@ -15,6 +15,12 @@
       "request": "launch",
       "name": "test unprocessed",
       "program": "${workspaceFolder}\\getunprocessed.js"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "test group copy",
+      "program": "${workspaceFolder}\\groupcopyimages.js"
     }
   ]
 }
