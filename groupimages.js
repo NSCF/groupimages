@@ -1,3 +1,5 @@
+//moved files from a set of subfolders (only one level down) to the root folder
+
 const path = require('path')
 const moveFile = require('move-file');
 const fs = require('fs-extra') //for reading contents on a dir only (not recursive)
@@ -19,7 +21,7 @@ fs.readdir(wd).then(subfolders => {
   
       if (files.length > 0) {
         var moveFilePromiseArray = []
-        files.forEach(file => {
+        files.forEach(async file => {
           let sourcePath = path.join(wd, subfolder, fileFolder, file)
           let destPath = path.join(wd, fileFolder, file)
           moveFilePromiseArray.push(moveFile(sourcePath, destPath))
@@ -35,8 +37,6 @@ fs.readdir(wd).then(subfolders => {
       else {
         console.log('no files in ', subfolder, '/', fileFolder)
       }
-      
-      
     })
   })
 
