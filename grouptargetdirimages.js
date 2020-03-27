@@ -22,7 +22,7 @@ dir.subdirs(root, async function(err, subdirs) {
     return;
   }
 
-  console.log('completed reading subdirectories, finding file names')
+  console.log(`finding files to copy`)
 
   let targetDirs = subdirs.filter(subdir => path.basename(subdir).toLowerCase() == targetDirName.toLowerCase())
 
@@ -34,7 +34,8 @@ dir.subdirs(root, async function(err, subdirs) {
     allTargetFiles = [...allTargetFiles, ...targetFiles]
   })
 
-  console.log('completed finding files to copy')
+  console.log(`found ${allTargetFiles.length} files to copy`)
+  console.log('copying files')
 
   let failed  = []
   let failedErrors = {}
