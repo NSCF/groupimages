@@ -2,13 +2,16 @@
 and this will *copy* all the files of that type found in directories with that name to the destination directory.
 */
 
+const path = require('path')
 const dir = require('node-dir') //for recursive directory contents
 const fs = require('fs')
 
-const root = 'H:\\Herbarium Specimen Images\\Wits Moss'
-const targetDirName = 'JPEG' //must be lower case
+const copyAllFiles = require('./copyAllFiles')
+
+const root = 'H:\\Herbarium Specimen Images\\Wits Moss\\Proteaceae'
+const targetDirName = 'accessioned' 
 const targetFileExt = '.jpg' //muse be lower case and include the period
-const destinationDir = 'H:\\Herbarium Specimen Images\\Wits Moss\\allunaccessioned'
+const destinationDir = 'H:\\Herbarium Specimen Images\\Wits Moss\\accessionedproteaceae'
 const overwriteDest = false; //whether or not to overwrite files with the same name in destinationDir
 
 
@@ -39,7 +42,7 @@ dir.subdirs(root, async function(err, subdirs) {
   await copyAllFiles(allTargetFiles, destinationDir, overwriteDest, failed, failedErrors)
   
   if(failed.length > 0) {
-    console.log('The following files were no copied: ' + failed.join('; '))
+    console.log('The following files were not copied: ' + failed.join('; '))
     console.log("ERRORS")
     for (message in failedErrors){
       console.log(`${message}: ${failedErrors[message]}`)

@@ -1,6 +1,6 @@
 //module that does the file copying
 //used in groupimages and grouptargetdirimages
-
+const path = require('path')
 const cpf = require('cp-file')
 
 function copyFile(source, destination, options, failed, failedErrors){
@@ -25,11 +25,13 @@ function copyFile(source, destination, options, failed, failedErrors){
   })
 }
 
-async function copyAllFiles(allTargetFiles, dest, overwrite, failed, failedErrors) {
+async function copyAllFiles(allTargetFiles, destDir, overwrite, failed, failedErrors) {
   return new Promise(async resolve => {
 
     for (const targetFile of allTargetFiles){
       let source = targetFile //just renaming for clarity
+      let fileName = path.basename(source)
+      let dest = path.join(destDir, fileName)
       await copyFile(source, dest, { overwrite: overwrite }, failed, failedErrors)
     }
 

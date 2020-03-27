@@ -20,7 +20,7 @@
       "type": "node",
       "request": "launch",
       "name": "test group copy",
-      "program": "${workspaceFolder}\\groupcopyimages.js"
+      "program": "${workspaceFolder}\\grouptargetdirimages.js"
     }
   ]
 }
