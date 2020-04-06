@@ -4,43 +4,29 @@ const path = require('path')
 const moveFile = require('move-file');
 const fs = require('fs-extra') //for reading contents on a dir only (not recursive)
 
-let wd = `D:\\NSCF backup 2020\\Restionaceace Euphorbiaceae and Orchidaceae\\20200122`
+let wd = `H:\\Herbarium Specimen Images\\Wits Moss\\test`
 
 //read the folders
-fs.readdir(wd).then(subfolders => {
+fs.readdir(wd).then(async diritems => {
   
-  subfolders = subfolders.filter(item => !path.extname(item)) //only stuff that doesn't have extentions
+  let subfolders = diritems.filter(item => !path.extname(item)) //only stuff that doesn't have extentions
 
+  let moveFilePromiseArray = []
   subfolders.forEach(async subfolder => {
-    let filefolders = await fs.readdir(path.join(wd, subfolder))
-    filefolders = filefolders.filter(item => !path.extname(item)) //only stuff that doesn't have extentions
-    filefolders.forEach(async fileFolder => {
-      let fullPath = path.join(wd, subfolder, fileFolder)
-      let files = await fs.readdir(fullPath)
-      files = files.filter(item => path.extname(item)) //only things with extensions
-  
-      if (files.length > 0) {
-        var moveFilePromiseArray = []
-        files.forEach(async file => {
-          let sourcePath = path.join(wd, subfolder, fileFolder, file)
-          let destPath = path.join(wd, fileFolder, file)
-          moveFilePromiseArray.push(moveFile(sourcePath, destPath))
-        })
-        
-        try {
-          await Promise.all(moveFilePromiseArray)
-        }
-        catch(err) {
-          console.log('error moving files: ', err.message)
-        }
-      }
-      else {
-        console.log('no files in ', subfolder, '/', fileFolder)
-      }
-    })
+    let subfolderitems = await fs.readdir(path.join(wd, subfolder))
+    let subfolderfiles = subfolderitems.filter(item => path.extname(item)) //only things with extensions
+    if(subfolderfiles.length > 0){
+      subfolderfiles.forEach(fileName =>{
+        let sourcePath = path.join(wd, subfolder, fileName)
+        let destPath = path.join(wd, fileName)
+        moveFilePromiseArray.push(moveFile(sourcePath, destPath))
+      })
+    }
   })
-
-  return
-
-}).then(_ => console.log('all done'))
-.catch(err => console.log('error: ' + err.message))
+  try {
+    await Promise.all(moveFilePromiseArray)
+  }
+  catch(err) {
+    console.log("error moving files: ", err.message)
+  }
+}).catch(err => console.log('error reading directory'))
