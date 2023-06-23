@@ -10,6 +10,6 @@
   "license": "ISC",
   "dependencies": {
     "fs-extra": "^8.1.0",
-    "move-file": "^1.2.0"
+    "move-file": "^3.1.0"
   }
 }
